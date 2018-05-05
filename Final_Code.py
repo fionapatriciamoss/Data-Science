@@ -285,6 +285,8 @@ def plot_confusion_matrix(cm, classes,
 # =============================================================================
 weight_arr = [0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 0.9, 1]
 
+#weight_arr = [1]
+
 #weight_arr = [1/np.std(result)*10000, 1/np.var(result), 0.09631511800978098]
 
 #weight_arr = [i for i in range(0.9)]
@@ -404,7 +406,7 @@ for w in range(0, len(weight_arr)):
     
     print ("Total MSE:", float(loss))
 
-    label_pred = np.dot(X, beta)
+    label_pred = np.dot(X_test, beta)
     
     
     label_pred = ((label_pred - min(label_pred)) * (1))/(max(label_pred) - min(label_pred)) + 0
@@ -534,21 +536,21 @@ result_features_L2=sample_test_fs[idx_attack]
 sample_train_L2, sample_test_L2, label_train_L2, label_test_L2 = train_test_split(result_features_L2, result_labels_L2, test_size=0.5, random_state=0)
 
 ##nn
-#nn = MLPClassifier()
-#nn.fit(sample_train_L2, label_train_L2)
-#nn_pred = nn.predict(sample_test_L2)
-##threshold = 0
-##nn_pred = (nn_pred > threshold).astype(int)
-##nn_pred[nn_pred == 0] = -1
-#accuracy = accuracy_score(label_test_L2, nn_pred) 
-#f1_val = f1_score(label_test_L2, nn_pred, average = None)
-#con_matrix = confusion_matrix(label_test_L2, nn_pred)
-#print ("accuracy of neural networks:", accuracy)
-#print ("F1 score:", f1_val)
-#print ("Confusion Matrix:", con_matrix)
-#print ("Precision:", con_matrix[1][1] / (con_matrix[0][1]+con_matrix[1][1]))
-#print ("Recall:", con_matrix[1][1] / (con_matrix[1][0]+con_matrix[1][1]))
-#print ("False positives:" ,con_matrix[0][1] / (con_matrix[0][1]+con_matrix[1][1]))
+nn = MLPClassifier()
+nn.fit(sample_train_L2, label_train_L2)
+nn_pred = nn.predict(sample_test_L2)
+#threshold = 0
+#nn_pred = (nn_pred > threshold).astype(int)
+#nn_pred[nn_pred == 0] = -1
+accuracy = accuracy_score(label_test_L2, nn_pred) 
+f1_val = f1_score(label_test_L2, nn_pred, average = None)
+con_matrix = confusion_matrix(label_test_L2, nn_pred)
+print ("accuracy of neural networks:", accuracy)
+print ("F1 score:", f1_val)
+print ("Confusion Matrix:", con_matrix)
+print ("Precision:", con_matrix[1][1] / (con_matrix[0][1]+con_matrix[1][1]))
+print ("Recall:", con_matrix[1][1] / (con_matrix[1][0]+con_matrix[1][1]))
+print ("False positives:" ,con_matrix[0][1] / (con_matrix[0][1]+con_matrix[1][1]))
 
 ##rf
 rf = RandomForestClassifier()
